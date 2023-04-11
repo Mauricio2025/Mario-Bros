@@ -44,3 +44,35 @@ if(pipePosition <= 70 && pipePosition > 0 && marioPosition < 90){
 
 
 document.addEventListener('keydown', jump);
+
+let score = document.querySelector("#score");
+let gameOver = document.querySelector("#gameOver");
+
+let interval = null;
+let playerScore = 0;
+
+
+let scoreCounter = () => {
+    playerScore++;
+    score.innerHTML = `Score <b>${playerScore}</b>`;
+}
+
+
+let result = setInterval(() => {
+    let playerBottom = parseInt(getComputedStyle(mario).getPropertyValue("bottom"));
+    //    console.log("playerBottom" + playerBottom);
+
+    let blockLeft = parseInt(getComputedStyle(pipe).getPropertyValue("left"));
+    //    console.log("BlockLeft" + blockLeft);
+
+    if (playerBottom <= 90 && blockLeft >= 20 && blockLeft <= 145) {
+        //        console.log("Game Over");
+
+        gameOver.style.display = "block";
+        pipe.classList.remove("blockActive");
+        road.firstElementChild.style.animation = "none";
+        cloud.firstElementChild.style.animation = "none";
+        clearInterval(interval);
+        playerScore = 0;
+    }
+}, 10);
